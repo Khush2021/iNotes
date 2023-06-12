@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const NotesSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId, //kind of foreign key
+    ref: "user",
+  },
   title: {
     type: String,
     required: true,
