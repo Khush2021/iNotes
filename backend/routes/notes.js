@@ -32,7 +32,7 @@ router.post(
         return res.send({ errors: result.array() });
       }
       const { title, description, tag } = req.body;
-      const note = await new Notes({
+      const note = new Notes({
         title,
         description,
         tag,
