@@ -4,11 +4,11 @@ require("dotenv").config();
 const jwt_secret = process.env.JWT_SECRET;
 
 const fetchUser = (req, res, next) => {
-  const token = req.header("auth-token");
+  const token = req.header("authtoken");
   if (!token) {
     return res
       .status(401)
-      .send({ error: "Please authenticate using valid token" });
+      .send({ error: "Please authenticate using valid token(no token)" });
   }
 
   try {

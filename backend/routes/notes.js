@@ -47,7 +47,7 @@ router.post(
   }
 );
 
-//ROUTE 3; update existing note using: PUT "api/notes/addnote"
+//ROUTE 3; update existing note using: PUT "api/notes/updatenote"
 router.put("/updatenote/:id", fetchUser, async (req, res) => {
   //we use put when updating
   try {
