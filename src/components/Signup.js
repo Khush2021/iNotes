@@ -24,12 +24,10 @@ const Signup = () => {
       }),
     });
     const json = await response.json();
-    console.log(json);
-    if (json.success) {
-      localStorage.setItem("token", json.authToken);
-      navigate("/");
+    if (json.success === true) {
+      navigate("/login");
     } else {
-      alert("invalid credentials!");
+      json.errors.map((error) => alert(error.msg))
     }
   };
 
@@ -98,6 +96,7 @@ const Signup = () => {
                       <button
                         className="btn btn-outline-light btn-lg px-5"
                         type="submit"
+                        id="signup-btn"
                       >
                         SignUp
                       </button>

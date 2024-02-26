@@ -24,7 +24,7 @@ const Login = () => {
       localStorage.setItem("token", json.authtoken);
       navigate("/");
     } else {
-      alert("invalid credentials!");
+      alert(json.error);
     }
   };
 
@@ -79,6 +79,7 @@ const Login = () => {
                       <button
                         className="btn btn-outline-light btn-lg px-5"
                         type="submit"
+                        id="login-btn"
                       >
                         Login
                       </button>
