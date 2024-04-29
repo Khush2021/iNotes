@@ -20,7 +20,6 @@ router.post(
   "/addnote",
   fetchUser,
   [
-    body("title", "Enter a valid title!").isLength({ min: 3 }),
     body("description", "Description must be atleast 5 characters!").isLength({
       min: 5,
     }),
@@ -31,11 +30,11 @@ router.post(
       if (!result.isEmpty()) {
         return res.send({ errors: result.array() });
       }
-      const { title, description, tag } = req.body;
+      const { title, description, tags } = req.body;
       const note = new Notes({
         title,
         description,
-        tag,
+        tags,
         user: req.user.id,
       });
       const savedNote = await note.save();
@@ -51,7 +50,7 @@ router.post(
 router.put("/updatenote/:id", fetchUser, async (req, res) => {
   //we use put when updating
   try {
-    const { title, description, tag } = req.body;
+    const { title, description, tags } = req.body;
     const newnote = {};
     if (title) {
       newnote.title = title;
@@ -59,8 +58,8 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
     if (description) {
       newnote.description = description;
     }
-    if (tag) {
-      newnote.tag = tag;
+    if (tags) {
+      newnote.tags = tags;
     }
 
     //find the note and update it

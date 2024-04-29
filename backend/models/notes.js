@@ -13,10 +13,11 @@ const NotesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tag: {
+  tags: [{  // Changed from "tag" to "tags", and adjusted the structure
     type: String,
     default: "General",
-  },
+    enum: ['Study', 'Research', 'Meeting', 'Ideas', 'Goals', 'Project', 'General']
+  }],
   date: {
     type: Date,
     default: Date.now,

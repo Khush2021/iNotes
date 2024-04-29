@@ -19,14 +19,14 @@ const NoteState = (props) => {
   };
 
   //add a note
-  const addNote = async (title, description, tag) => {
+  const addNote = async (title, description, tags) => {
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
         authtoken: localStorage.getItem("token"),
       },
-      body: JSON.stringify({ title, description, tag }),
+      body: JSON.stringify({ title, description, tags }),
     });
     // eslint-disable-next-line
     const note = await response.json();
@@ -53,14 +53,14 @@ const NoteState = (props) => {
   };
 
   //edit a note
-  const editNote = async (id, title, description, tag) => {
+  const editNote = async (id, title, description, tags) => {
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
         authtoken: localStorage.getItem("token"),
       },
-      body: JSON.stringify({ title, description, tag }),
+      body: JSON.stringify({ title, description, tags }),
     });
     // eslint-disable-next-line
     const json = response.json();
