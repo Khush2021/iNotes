@@ -27,22 +27,27 @@ const Signup = () => {
     if (json.success === true) {
       navigate("/login");
     } else {
-      json.errors.map((error) => alert(error.msg))
+      json.errors.map((error) => alert(error.msg));
     }
   };
 
   const onchange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
+  const token = localStorage.getItem("token");
   return (
     <div>
-      <section className="vh-100 gradient-custom">
+      <section className="vh-100" style={{ backgroundColor: "#222831" }}>
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-12 col-md-8 col-lg-6 col-xl-5">
               <div
-                className="card bg-dark text-white"
-                style={{ borderRadius: "1rem" }}
+                className="card"
+                style={{
+                  backgroundColor: "#393E46",
+                  borderRadius: "1rem",
+                  color: "#EEEEEE",
+                }}
               >
                 <div className="card-body p-5 text-center">
                   <div className="mb-md-5 mt-md-4 pb-5">
@@ -94,6 +99,7 @@ const Signup = () => {
                       </div>
 
                       <button
+                        style={{ backgroundColor: "#00ADB5" }}
                         className="btn btn-outline-light btn-lg px-5"
                         type="submit"
                         id="signup-btn"
