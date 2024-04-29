@@ -29,11 +29,12 @@ const Notes = () => {
   }, []);
   const updateNote = (currentNote) => {
     ref.current.click();
-    currentNote.tags = currentNote.tags.map((tag) => ({
+    const updatedTags = currentNote.tags.map((tag) => ({
       value: tag,
       label: tag,
     }));
-    setNote(currentNote);
+    const updatedNote = { ...currentNote, tags: updatedTags };
+    setNote(updatedNote);
   };
 
   const [note, setNote] = useState({
@@ -45,6 +46,14 @@ const Notes = () => {
 
   const handleClick = (event) => {
     event.preventDefault();
+    if (note.title.length === 0) {
+      alert("title length should be greater than 0!");
+      return;
+    }
+    if (note.description.length < 5) {
+      alert("Description must be atleast 5 characters");
+      return;
+    }
     let tags = note.tags.map((tag) => tag.value);
     editNote(note._id, note.title, note.description, tags);
     closeRef.current.click();
@@ -63,8 +72,12 @@ const Notes = () => {
   const ref = useRef(null);
   const closeRef = useRef(null);
 
-  let filteredNotes = notes?.filter((note) =>
-    note?.tags?.includes(options[activeTab]?.value)
+  let filteredNotes = notes?.filter(
+    (note) =>
+      note?.tags?.includes(options[activeTab]?.value) ||
+      note?.tags?.findIndex(
+        (tag) => tag?.value === options[activeTab]?.value
+      ) !== -1
   );
 
   return (
@@ -159,9 +172,6 @@ const Notes = () => {
                   Close
                 </button>
                 <button
-                  disabled={
-                    note.title.length === 0 || note.description.length < 5
-                  }
                   type="button"
                   className="btn btn-primary"
                   onClick={handleClick}
@@ -201,19 +211,17 @@ const Notes = () => {
         <p style={{ margin: "10px auto" }}>No notes to display</p>
       )}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-        {filteredNotes
-          ?.filter((note) => note?.tags?.includes(options[activeTab]?.value))
-          ?.map((note, key) => {
-            return (
-              <Noteitem
-                note={note}
-                updateNote={() => {
-                  updateNote(note);
-                }}
-                key={key}
-              />
-            );
-          })}
+        {filteredNotes?.map((note, key) => {
+          return (
+            <Noteitem
+              note={note}
+              updateNote={() => {
+                updateNote(note);
+              }}
+              key={key}
+            />
+          );
+        })}
       </div>
     </div>
   );
