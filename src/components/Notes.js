@@ -104,7 +104,7 @@ const Notes = () => {
                   <input
                     type="text"
                     className="form-control"
-                    id="title"
+                    id="edit-title"
                     aria-describedby="title"
                     placeholder="Enter title"
                     name="title"
@@ -117,7 +117,7 @@ const Notes = () => {
                   <textarea
                     type="text"
                     className="form-control"
-                    id="description"
+                    id="edit-description"
                     placeholder="Enter description"
                     name="description"
                     value={note.description}
@@ -127,7 +127,7 @@ const Notes = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="tag">Tags</label>
-                  <Select options={options} isMulti name="tag" onChange={handleTagChange} value={note.tags}/>
+                  <Select options={options} isMulti name="tag" id="edit-tag" onChange={handleTagChange} value={note.tags}/>
                 </div>
               </form>
             </div>
@@ -145,6 +145,7 @@ const Notes = () => {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleClick}
+                id="edit-note-btn"
               >
                 Update Note
               </button>
