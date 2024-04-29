@@ -2,23 +2,23 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import NoteContext from "../context/notes/notecontext";
 import Noteitem from "./Noteitem";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select"
+import Select from "react-select";
 
 const options = [
-  {value: 'General', label: 'General'},
-  {value: 'Study', label: 'Study'},
-  {value: 'Research', label: 'Research'},
-  {value: 'Meeting', label: 'Meeting'},
-  {value: 'Ideas', label: 'Ideas'},
-  {value: 'Goals', label: 'Goals'},
-  {value: 'Project', label: 'Project'},
-]
+  { value: "General", label: "General" },
+  { value: "Study", label: "Study" },
+  { value: "Research", label: "Research" },
+  { value: "Meeting", label: "Meeting" },
+  { value: "Ideas", label: "Ideas" },
+  { value: "Goals", label: "Goals" },
+  { value: "Project", label: "Project" },
+];
 
 const Notes = () => {
   const navigate = useNavigate();
   const noteContext = useContext(NoteContext);
   const { notes, getAllNotes, editNote } = noteContext;
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState(0);
   useEffect(() => {
     if (localStorage.getItem("token")) {
       getAllNotes();
@@ -29,8 +29,12 @@ const Notes = () => {
   }, []);
   const updateNote = (currentNote) => {
     ref.current.click();
-    currentNote.tags = currentNote.tags.map((tag) => ({value: tag, label: tag}))
-    setNote(currentNote);
+    const updatedTags = currentNote.tags.map((tag) => ({
+      value: tag,
+      label: tag,
+    }));
+    const updatedNote = { ...currentNote, tags: updatedTags };
+    setNote(updatedNote);
   };
 
   const [note, setNote] = useState({
@@ -42,7 +46,15 @@ const Notes = () => {
 
   const handleClick = (event) => {
     event.preventDefault();
-    let tags = note.tags.map((tag) => tag.value)
+    if (note.title.length === 0) {
+      alert("title length should be greater than 0!");
+      return;
+    }
+    if (note.description.length < 5) {
+      alert("Description must be atleast 5 characters");
+      return;
+    }
+    let tags = note.tags.map((tag) => tag.value);
     editNote(note._id, note.title, note.description, tags);
     closeRef.current.click();
   };
@@ -53,26 +65,33 @@ const Notes = () => {
   const handleTagChange = (e) => {
     setNote({
       ...note,
-      tags: e
-    })
-  }
+      tags: e,
+    });
+  };
 
   const ref = useRef(null);
   const closeRef = useRef(null);
 
-  let filteredNotes = notes?.filter((note) => note?.tags?.includes(options[activeTab]?.value))
+  let filteredNotes = notes?.filter(
+    (note) =>
+      note?.tags?.includes(options[activeTab]?.value) ||
+      note?.tags?.findIndex(
+        (tag) => tag?.value === options[activeTab]?.value
+      ) !== -1
+  );
 
   return (
-    <div className="row my-3">
-      <button
-        type="button"
-        className="btn btn-primary d-none"
-        data-toggle="modal"
-        data-target="#exampleModal"
-        ref={ref}
-      >
-        Launch demo modal
-      </button>
+    <div className="container">
+      <div className="row my-3">
+        <button
+          type="button"
+          className="btn btn-primary d-none"
+          data-toggle="modal"
+          data-target="#exampleModal"
+          ref={ref}
+        >
+          Launch demo modal
+        </button>
 
       <div
         className="modal fade"
@@ -154,11 +173,20 @@ const Notes = () => {
         </div>
       </div>
       <h2>Your Notes</h2>
-      <div style={{fontSize: '20px', gap: '10px', display: 'flex'}}>
+      <div
+        style={{
+          fontSize: "20px",
+          gap: "10px",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         {options?.map((option, index) => {
           return (
             <span
-              className={`badge px-2 ${activeTab === index ? "bg-primary": "bg-secondary"}`}
+              className={`badge px-2 ${
+                activeTab === index ? "bg-primary" : "bg-secondary"
+              }`}
               key={option.value}
               style={{ cursor: "pointer" }}
               onClick={() => setActiveTab(index)}
@@ -168,18 +196,23 @@ const Notes = () => {
           );
         })}
       </div>
-      {(filteredNotes?.length === 0 || notes?.length === 0 ) && <p style={{margin: '10px auto'}}>No notes to display</p>}
-      {filteredNotes?.filter((note) => note?.tags?.includes(options[activeTab]?.value))?.map((note, key) => {
-        return (
-          <Noteitem
-            note={note}
-            updateNote={() => {
-              updateNote(note);
-            }}
-            key={key}
-          />
-        );
-      })}
+      {(filteredNotes?.length === 0 || notes?.length === 0) && (
+        <p style={{ margin: "10px auto" }}>No notes to display</p>
+      )}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+        {filteredNotes?.map((note, key) => {
+          return (
+            <Noteitem
+              note={note}
+              updateNote={() => {
+                updateNote(note);
+              }}
+              key={key}
+            />
+          );
+        })}
+      </div>
+    </div>
     </div>
   );
 };
