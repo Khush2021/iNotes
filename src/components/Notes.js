@@ -172,22 +172,16 @@ const Notes = () => {
             </div>
           </div>
         </div>
-        <h2>Your Notes</h2>
-        {notes?.length === 0 && <p>No notes to display</p>}
-        {notes?.map((note, key) => {
-          return (
-            <Noteitem
-              note={note}
-              updateNote={() => {
-                updateNote(note);
-              }}
-              key={key}
-            />
-          );
-        })}
       </div>
       <h2>Your Notes</h2>
-      <div style={{ fontSize: "20px", gap: "10px", display: "flex" }}>
+      <div
+        style={{
+          fontSize: "20px",
+          gap: "10px",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         {options?.map((option, index) => {
           return (
             <span
@@ -206,19 +200,21 @@ const Notes = () => {
       {(filteredNotes?.length === 0 || notes?.length === 0) && (
         <p style={{ margin: "10px auto" }}>No notes to display</p>
       )}
-      {filteredNotes
-        ?.filter((note) => note?.tags?.includes(options[activeTab]?.value))
-        ?.map((note, key) => {
-          return (
-            <Noteitem
-              note={note}
-              updateNote={() => {
-                updateNote(note);
-              }}
-              key={key}
-            />
-          );
-        })}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+        {filteredNotes
+          ?.filter((note) => note?.tags?.includes(options[activeTab]?.value))
+          ?.map((note, key) => {
+            return (
+              <Noteitem
+                note={note}
+                updateNote={() => {
+                  updateNote(note);
+                }}
+                key={key}
+              />
+            );
+          })}
+      </div>
     </div>
   );
 };
