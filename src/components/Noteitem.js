@@ -26,6 +26,18 @@ const Noteitem = (props) => {
             </div>
           </div>
           <p className="card-text">{note?.description}</p>
+        <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
+          {note?.tags?.map((tag) => {
+            return (
+              <span
+                className="badge bg-success px-2"
+                key={tag}
+              >
+                {tag}
+              </span>
+            );
+          })}
+        </div>
         </div>
       </div>
     </div>

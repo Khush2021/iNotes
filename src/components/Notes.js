@@ -18,6 +18,7 @@ const Notes = () => {
   const navigate = useNavigate();
   const noteContext = useContext(NoteContext);
   const { notes, getAllNotes, editNote } = noteContext;
+  const [activeTab, setActiveTab] = useState(0)
   useEffect(() => {
     if (localStorage.getItem("token")) {
       getAllNotes();
@@ -58,6 +59,9 @@ const Notes = () => {
 
   const ref = useRef(null);
   const closeRef = useRef(null);
+
+  let filteredNotes = notes?.filter((note) => note?.tags?.includes(options[activeTab]?.value))
+
   return (
     <div className="row my-3">
       <button
@@ -149,8 +153,22 @@ const Notes = () => {
         </div>
       </div>
       <h2>Your Notes</h2>
-      {notes?.length === 0 && <p>No notes to display</p>}
-      {notes?.map((note, key) => {
+      <div style={{fontSize: '20px', gap: '10px', display: 'flex'}}>
+        {options?.map((option, index) => {
+          return (
+            <span
+              className={`badge px-2 ${activeTab === index ? "bg-primary": "bg-secondary"}`}
+              key={option.value}
+              style={{ cursor: "pointer" }}
+              onClick={() => setActiveTab(index)}
+            >
+              {option.label}
+            </span>
+          );
+        })}
+      </div>
+      {(filteredNotes?.length === 0 || notes?.length === 0 ) && <p style={{margin: '10px auto'}}>No notes to display</p>}
+      {filteredNotes?.filter((note) => note?.tags?.includes(options[activeTab]?.value))?.map((note, key) => {
         return (
           <Noteitem
             note={note}

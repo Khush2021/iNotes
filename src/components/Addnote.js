@@ -78,7 +78,7 @@ const Addnote = () => {
         </div>
         <div className="form-group">
           <label htmlFor="tag">Tags(optional)</label>
-          <Select options={options} isMulti name="tag" onChange={handleTagChange}/>
+          <Select options={options} isMulti name="tag" id="tag" onChange={handleTagChange}/>
         </div>
         <button
           disabled={note.title.length === 0 || note.description.length <  5}
