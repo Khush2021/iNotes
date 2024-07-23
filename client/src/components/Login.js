@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-const host = "http://localhost:8000";
+const host = process.env.REACT_APP_API_ENDPOINT;
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -19,7 +19,6 @@ const Login = () => {
       }),
     });
     const json = await response.json();
-    console.log(json);
     if (json.success) {
       localStorage.setItem("token", json.authtoken);
       navigate("/");
@@ -97,7 +96,11 @@ const Login = () => {
                   <div>
                     <p className="mb-0">
                       Don't have an account?{" "}
-                      <Link to="/signup" className="text-white-50 fw-bold" id="signup-link">
+                      <Link
+                        to="/signup"
+                        className="text-white-50 fw-bold"
+                        id="signup-link"
+                      >
                         Sign Up
                       </Link>
                     </p>

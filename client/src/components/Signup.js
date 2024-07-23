@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-const host = "http://localhost:8000";
+const host = process.env.REACT_APP_API_ENDPOINT;
 
 const Signup = () => {
   const [credentials, setCredentials] = useState({

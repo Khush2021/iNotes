@@ -93,126 +93,141 @@ const Notes = () => {
           Launch demo modal
         </button>
 
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Edit Note
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <form className="my-3">
-                <div className="form-group">
-                  <label htmlFor="title">Title</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="edit-title"
-                    aria-describedby="title"
-                    placeholder="Enter title"
-                    name="title"
-                    value={note.title}
-                    onChange={onchange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="description">Description<sup style={{color: 'red'}}>*</sup></label>
-                  <textarea
-                    type="text"
-                    className="form-control"
-                    id="edit-description"
-                    placeholder="Enter description"
-                    name="description"
-                    value={note.description}
-                    onChange={onchange}
-                    style={{ height: "100px" , maxHeight: "300px", textAlign: "initial"}}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="tag">Tags</label>
-                  <Select options={options} isMulti name="tag" id="edit-tag" onChange={handleTagChange} value={note.tags}/>
-                </div>
-              </form>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-                ref={closeRef}
-              >
-                Close
-              </button>
-              <button
-                disabled={note.title.length === 0 || note.description.length < 5}
-                type="button"
-                className="btn btn-primary"
-                onClick={handleClick}
-                id="edit-note-btn"
-              >
-                Update Note
-              </button>
+        <div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Edit Note
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <form className="my-3">
+                  <div className="form-group">
+                    <label htmlFor="title">Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="edit-title"
+                      aria-describedby="title"
+                      placeholder="Enter title"
+                      name="title"
+                      value={note.title}
+                      onChange={onchange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="description">
+                      Description<sup style={{ color: "red" }}>*</sup>
+                    </label>
+                    <textarea
+                      type="text"
+                      className="form-control"
+                      id="edit-description"
+                      placeholder="Enter description"
+                      name="description"
+                      value={note.description}
+                      onChange={onchange}
+                      style={{
+                        height: "100px",
+                        maxHeight: "300px",
+                        textAlign: "initial",
+                      }}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="tag">Tags</label>
+                    <Select
+                      options={options}
+                      isMulti
+                      name="tag"
+                      id="edit-tag"
+                      onChange={handleTagChange}
+                      value={note.tags}
+                    />
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                  ref={closeRef}
+                >
+                  Close
+                </button>
+                <button
+                  disabled={
+                    note.title.length === 0 || note.description.length < 5
+                  }
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleClick}
+                  id="edit-note-btn"
+                >
+                  Update Note
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        <h2>Your Notes</h2>
+        <div
+          style={{
+            fontSize: "20px",
+            gap: "10px",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          {options?.map((option, index) => {
+            return (
+              <span
+                className={`badge px-2 ${
+                  activeTab === index ? "bg-primary" : "bg-secondary"
+                }`}
+                key={option.value}
+                style={{ cursor: "pointer" }}
+                onClick={() => setActiveTab(index)}
+              >
+                {option.label}
+              </span>
+            );
+          })}
+        </div>
+        {(filteredNotes?.length === 0 || notes?.length === 0) && (
+          <p style={{ margin: "10px auto" }}>No notes to display</p>
+        )}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+          {filteredNotes?.map((note, key) => {
+            return (
+              <Noteitem
+                note={note}
+                updateNote={() => {
+                  updateNote(note);
+                }}
+                key={key}
+              />
+            );
+          })}
+        </div>
       </div>
-      <h2>Your Notes</h2>
-      <div
-        style={{
-          fontSize: "20px",
-          gap: "10px",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        {options?.map((option, index) => {
-          return (
-            <span
-              className={`badge px-2 ${
-                activeTab === index ? "bg-primary" : "bg-secondary"
-              }`}
-              key={option.value}
-              style={{ cursor: "pointer" }}
-              onClick={() => setActiveTab(index)}
-            >
-              {option.label}
-            </span>
-          );
-        })}
-      </div>
-      {(filteredNotes?.length === 0 || notes?.length === 0) && (
-        <p style={{ margin: "10px auto" }}>No notes to display</p>
-      )}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-        {filteredNotes?.map((note, key) => {
-          return (
-            <Noteitem
-              note={note}
-              updateNote={() => {
-                updateNote(note);
-              }}
-              key={key}
-            />
-          );
-        })}
-      </div>
-    </div>
     </div>
   );
 };

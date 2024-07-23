@@ -1,6 +1,6 @@
 import { useState } from "react";
 import noteContext from "./notecontext";
-const host = "http://localhost:8000";
+const host = process.env.REACT_APP_API_ENDPOINT;
 
 const NoteState = (props) => {
   const notesinit = [];
