@@ -94,7 +94,6 @@ router.delete("/deletenote/:id", fetchUser, async (req, res) => {
     if (!note) {
       return res.status(404).send("not found!");
     }
-    console.log(note.user);
     //allow deletion only if user is authenticated
     if (note.user.toString() !== req.user.id) {
       return res.status(401).send("Not allowed");

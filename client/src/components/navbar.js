@@ -11,9 +11,9 @@ const Navbar = () => {
   return (
     <>
       {token && (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="px-5 navbar navbar-expand-lg navbar-dark bg-dark">
           <Link className="navbar-brand" to="/">
-            iNotebook
+            iNotes
           </Link>
           <button
             className="navbar-toggler"
@@ -40,33 +40,14 @@ const Navbar = () => {
                 </NavLink>
               </li>
             </ul>
-            {!localStorage.getItem("token") ? (
-              <form className="d-flex">
-                <Link
-                  className="btn btn-primary mx-2"
-                  to="/login"
-                  role="button"
-                >
-                  Login
-                </Link>
-                <Link
-                  className="btn btn-primary mx-2"
-                  to="/signup"
-                  role="button"
-                >
-                  Signup
-                </Link>{" "}
-              </form>
-            ) : (
-              <Link
-                className="btn btn-primary mx-2"
-                to="/login"
-                onClick={handleLogout}
-                role="button"
-              >
-                Logout
-              </Link>
-            )}
+            <Link
+              className="btn btn-primary mx-2"
+              to="/login"
+              onClick={handleLogout}
+              role="button"
+            >
+              Logout
+            </Link>
           </div>
         </nav>
       )}

@@ -6,12 +6,20 @@ const Noteitem = (props) => {
 
   const noteContext = useContext(NoteContext);
   const { delNote } = noteContext;
+
   const handleClick = () => {
     if (delNote(note?._id)) alert("note deleted!");
   };
+
+  // Added inline CSS for card background and shadow for better UI
+  const cardStyle = {
+    backgroundColor: "#f8f9fa", // A light grey background
+    boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow for depth
+  };
+
   return (
     <div className="col-md-5">
-      <div className="card my-3">
+      <div className="card my-3" style={cardStyle}>
         <div className="card-body">
           <div
             className="d-flex align-items-center"
